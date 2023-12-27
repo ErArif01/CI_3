@@ -1,0 +1,39 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 14
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Lint Code
+        run: npm run lint
+
+      - name: Run Tests
+        run: npm test
+
+      - name: Build Application
+        run: npm run build
+
+        # Optionally, deploy to a hosting service or cloud platform
+
+      - name: Deploy to Production
+        uses: easingthemes/deploy-to-gh-pages@v2
+        with:
+          ACCESS_TOKEN: $ {{ secrets.ACCESS_TOKEN}}
+          BRANCH: gh-pages
+          FOLDER: dist
